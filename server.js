@@ -7,6 +7,7 @@
  * - Real-time Modmail (Socket.io)
  * - Admin: Staff Management (Promote/Demote/Guardrails)
  * - Admin: Server Management (Blacklist/Invites)
+ * - Staff: Order Logs (Full History View)
  * - Database: Full Sync with Bot
  * ============================================================================
  */
@@ -294,7 +295,19 @@ app.post('/profile/password', isStaff, async (req, res) => {
     res.redirect('/profile');
 });
 
-// --- STAFF MANAGEMENT ---
+// --- STAFF ACCESS: ORDER LOGS ---
+// Changed from /admin/orders to /orders to signify general staff access
+app.get('/orders', isStaff, async (req, res) => {
+    const orders = await Order.find().sort({ created_at: -1 });
+    res.render('staff_orders', { 
+        user: req.user, 
+        orders: orders, 
+        success_msg: req.flash('success'), 
+        error_msg: req.flash('error') 
+    });
+});
+
+// --- OWNER ACCESS: STAFF MANAGEMENT ---
 app.get('/admin/staff', isOwner, async (req, res) => {
     const allStaff = await WebStaff.find({});
     res.render('admin_staff', { user: req.user, staffList: allStaff, success_msg: req.flash('success'), error_msg: req.flash('error') });
