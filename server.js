@@ -46,6 +46,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
+// --- [FIX START] GLOBAL USER MIDDLEWARE ---
+// This injects the logged-in user into EVERY view (sidebar, admin, etc.)
+app.use((req, res, next) => {
+    res.locals.user = req.user || null;
+    next();
+});
+// --- [FIX END] ----------------------------
+
 // ==================================================================
 // 2. HYBRID AUTHENTICATION
 // ==================================================================
