@@ -1,1 +1,20 @@
-<!DOCTYPE html><html><head><title>Staff Login</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><style>body{background-color:#1a1a1a;color:white;display:flex;align-items:center;justify-content:center;height:100vh;}</style></head><body><div class="card p-4" style="background-color:#313338;border:1px solid #444;width:400px;"><h2 class="text-center mb-4" style="color:#FFA500;">🍩 Staff Portal</h2><% if(message.length > 0) { %><div class="alert alert-danger"><%= message %></div><% } %><form action="/login" method="POST"><div class="mb-3"><label>Username</label><input type="text" name="username" class="form-control" required></div><div class="mb-3"><label>Password</label><input type="password" name="password" class="form-control" required></div><button type="submit" class="btn btn-warning w-100">Login</button></form><hr><a href="/auth/discord" class="btn btn-primary w-100">Login with Discord (If Linked)</a></div></body></html>
+<!DOCTYPE html><html><head><title>Login</title><link rel="stylesheet" href="/style.css"></head>
+<body style="display:flex; justify-content:center; align-items:center; height:100vh;">
+    <div class="card" style="width: 600px; display:flex; gap:20px;">
+        <div style="flex:1;">
+            <h3>Local Login</h3>
+            <% if(msg.length>0){ %><div style="color:red"><%= msg %></div><% } %>
+            <form action="/auth/login" method="POST">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button style="width:100%">Login</button>
+            </form>
+        </div>
+        <div style="border-left:1px solid #444; margin:0 10px;"></div>
+        <div style="flex:1; text-align:center;">
+            <h3>SSO Login</h3>
+            <p style="color:#aaa">Only for authorized/linked accounts.</p>
+            <a href="/auth/discord" class="btn" style="background:#5865F2; display:block; text-decoration:none;">Login with Discord</a>
+        </div>
+    </div>
+</body></html>

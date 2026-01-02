@@ -1,0 +1,10 @@
+<div class="sidebar"><h3>MENU</h3>
+    <a href="/dashboard" class="menu-item">Dashboard</a>
+    <% if(['Management', 'Senior', 'Owner', 'Admin'].includes(user.role)) { %>
+        <a href="/management" class="menu-item">Management</a>
+        <a href="/support" class="menu-item">Support</a>
+        <a href="/servers" class="menu-item">Servers</a>
+    <% } %>
+    <% if(['Admin', 'Owner'].includes(user.role)) { %><a href="/admin" class="menu-item">Admin</a><% } %>
+    <a href="/logout" class="menu-item" style="color:red; margin-top:20px;">Logout</a>
+</div>

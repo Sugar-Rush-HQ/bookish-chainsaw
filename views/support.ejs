@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head><title>Support</title><link rel="stylesheet" href="/style.css"></head>
+<body>
+    <div class="layout">
+        <%- include('partials/sidebar') %>
+        <div class="content">
+            <h1>Support Tickets</h1>
+            <% threads.forEach(thread => { %>
+                <div class="card" style="border-left: 5px solid <%= blockedUsers.includes(thread.userId) ? 'red' : '#00e676' %>;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <h3><%= thread.username %> <span style="font-size:0.7em">(<%= thread.userId %>)</span></h3>
+                        <% if(!blockedUsers.includes(thread.userId)){ %>
+                            <form action="/support/block" method="POST"><input type="hidden" name="user_id" value="<%= thread.userId %>"><button class="btn-sm btn-red">BLOCK</button></form>
+                        <% } else { %><span style="color:red">BLOCKED</span><% } %>
+                    </div>
+                    <div style="max-height:200px; overflow-y:auto; background:#111; padding:10px; margin-bottom:10px;">
+                        <% thread.messages.forEach(msg => { %>
+                            <div style="margin-bottom:5px;">
+                                <strong style="color:<%= msg.author==='Staff'?'#e91e63':'#00e676'%>"><%= msg.author %> (<%= msg.authorName||'System' %>):</strong> <%= msg.content %>
+                            </div>
+                        <% }) %>
+                    </div>
+                    <% if(!blockedUsers.includes(thread.userId)){ %>
+                        <form action="/support/reply" method="POST" style="display:flex; gap:10px;">
+                            <input type="hidden" name="thread_id" value="<%= thread._id %>">
+                            <input name="message" placeholder="Reply...">
+                            <button>Send</button>
+                        </form>
+                    <% } %>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</body>
+</html>
