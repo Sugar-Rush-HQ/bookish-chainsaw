@@ -1,0 +1,19 @@
+<!DOCTYPE html><html><head><title>Management</title><link rel="stylesheet" href="/style.css"></head>
+<body><div class="layout"><%- include('partials/sidebar') %><div class="content">
+    <h1>Management</h1>
+    <div class="card"><h3>⚠️ Active Warnings</h3>
+        <table><tr><th>ID</th><th>Count</th><th>Action</th></tr>
+        <% warnedUsers.forEach(u => { %><tr><td><%= u.user_id %></td><td style="color:red"><%= u.warnings %></td><td>
+            <form action="/remove-warning" method="POST"><input type="hidden" name="target_id" value="<%= u.user_id %>"><button class="btn-sm">Remove 1</button></form>
+        </td></tr><% }) %></table>
+    </div>
+    <div class="card"><h3>🧑‍🍳 Live Orders</h3>
+        <table><tr><th>ID</th><th>Item</th><th>Status</th><th>Chef</th></tr>
+        <% activeOrders.forEach(o => { %><tr><td><%= o.order_id %></td><td><%= o.item %></td><td style="color:orange"><%= o.status %></td><td><%= o.chef_name %></td></tr><% }) %></table>
+    </div>
+    <% if(user.role === 'Owner') { %>
+    <div class="card" style="border:1px solid gold;"><h3>👑 Add VIP</h3>
+        <form action="/add-vip" method="POST" style="display:flex; gap:10px;"><input name="target_id" placeholder="User ID"><button>Add 30 Days</button></form>
+    </div>
+    <% } %>
+</div></div></body></html>
