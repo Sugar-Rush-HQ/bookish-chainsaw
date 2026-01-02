@@ -1,0 +1,20 @@
+<!DOCTYPE html><html><head><title>Servers</title><link rel="stylesheet" href="/style.css"><script src="/socket.io/socket.io.js"></script></head>
+<body><div class="layout"><%- include('partials/sidebar') %><div class="content">
+    <h1>Server Management</h1>
+    <div class="card" style="border-left: 5px solid red;">
+        <h3>🛑 Blacklist (DB Only)</h3>
+        <p style="color:#aaa; font-size:0.8em">Records ban in DB. Does NOT force bot leave.</p>
+        <form action="/blacklist" method="POST"><input name="guild_id" placeholder="Guild ID"><input name="reason" placeholder="Reason"><button class="btn-red">Blacklist</button></form>
+    </div>
+    <table id="serverTable"><thead><tr><th>Name</th><th>ID</th><th>Members</th><th>Action</th></tr></thead><tbody id="tb"></tbody></table>
+</div></div>
+<script>
+    const s = io();
+    s.on('ui_server_list', (l) => {
+        const tb = document.getElementById('tb'); tb.innerHTML='';
+        l.forEach(g => {
+            tb.innerHTML += `<tr><td>${g.name}</td><td>${g.id}</td><td>${g.count}</td><td><form action="/generate-invite" method="POST"><input type="hidden" name="guild_id" value="${g.id}"><button class="btn-sm">Invite</button></form></td></tr>`;
+        });
+    });
+    s.on('ui_invite', (d) => prompt("Invite:", d.code));
+</script></body></html>
